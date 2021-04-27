@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Student, Enrollment, Course
+import datetime
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
@@ -11,11 +12,46 @@ class EnrollmentSerializer(serializers.ModelSerializer):
             course=validated_data['course'],
             student=validated_data['student'],
             semester_name=validated_data['semester_name'],
-            start_date=validated_data['start_date'],
-            end_date=validated_data['end_date'],
             status=validated_data['status']
         )
+        semester = enrollment.semester_name.split(' ')
+        print(semester)
+        if(semester[0] == 'Summer'):
+            print(datetime.datetime(int(semester[1]), 5, 17).date())
+            enrollment.start_date = datetime.datetime(int(semester[1]), 5, 17).date()
+            enrollment.end_date = datetime.datetime(int(semester[1]), 7, 1).date()
+
+        elif(semester[0] == 'Fall'):
+            enrollment.start_date = datetime.datetime(int(semester[1]), 8, 24).date()
+            enrollment.end_date = datetime.datetime(int(semester[1]), 12, 17).date()
+
+        else:
+            enrollment.start_date = datetime.datetime(int(semester[1]), 1 , 15).date()
+            enrollment.end_date = datetime.datetime(int(semester[1]), 5, 7).date()
+        enrollment.save()
         return enrollment
+
+    def update(self, enrollment, validated_data):
+        enrollment.semester_name = validated_data['semester_name']
+        enrollment.status = validated_data['status']
+        enrollment.grade = validated_data['grade']
+        semester = validated_data['semester_name'].split(' ')
+        print(semester)
+        if (semester[0] == 'Summer'):
+            print(datetime.datetime(int(semester[1]), 5, 17).date())
+            enrollment.start_date = datetime.datetime(int(semester[1]), 5, 17).date()
+            enrollment.end_date = datetime.datetime(int(semester[1]), 7, 1).date()
+
+        elif (semester[0] == 'Fall'):
+            enrollment.start_date = datetime.datetime(int(semester[1]), 8, 24).date()
+            enrollment.end_date = datetime.datetime(int(semester[1]), 12, 17).date()
+
+        else:
+            enrollment.start_date = datetime.datetime(int(semester[1]), 1, 15).date()
+            enrollment.end_date = datetime.datetime(int(semester[1]), 5, 7).date()
+        enrollment.save()
+        return enrollment
+
 
     class Meta:
         model = Enrollment
