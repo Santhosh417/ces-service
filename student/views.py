@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes((IsAuthenticated, IsAdminUser))
+@permission_classes((IsAuthenticated,))
 def getStudent(request, pk):
     """
     Retrieve, update or delete a student instance.
@@ -43,6 +43,7 @@ def getStudent(request, pk):
 
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes((IsAuthenticated, IsAdminUser))
 def getEnrollment(request, pk):
     """
     Retrieve, update or delete a Enrollment instance.
@@ -74,7 +75,6 @@ def getEnrollment(request, pk):
 @api_view(['GET', 'POST'])
 @permission_classes((IsAuthenticated, IsAdminUser))
 def enrollment_list(request):
-    permission_classes = [IsAuthenticated, IsAdminUser]
     if request.method == 'GET':
         enrollments = Enrollment.objects.all()
         serializer = EnrollmentSerializer(enrollments, context={'request': request}, many=True)
