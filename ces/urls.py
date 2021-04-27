@@ -20,7 +20,7 @@ from student import views as studentView
 from users import views as userView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('popcorn/', admin.site.urls),
     path('api/login/', userView.login),
     url(r'^api/students/(?P<pk>[0-9]+)$', studentView.getStudent),
     url(r'^api/enrollments/$', studentView.enrollment_list),
