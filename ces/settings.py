@@ -85,10 +85,10 @@ WSGI_APPLICATION = 'ces.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'efs',
+        'NAME': os.environ['DB_NAME'],
         'USER': os.environ['DB_USER'],
         'PASSWORD': os.environ['DB_PWD'],
-        'PORT': '5433'
+        'PORT': os.environ['DB_PORT']
     }
 }
 
@@ -158,5 +158,5 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
-
+SECURE_BROWSER_XSS_FILTER = True
 django_heroku.settings(locals())
